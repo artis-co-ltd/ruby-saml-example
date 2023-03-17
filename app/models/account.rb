@@ -4,7 +4,7 @@ class Account < ActiveRecord::Base
     # should retrieve SAML-settings based on subdomain, IP-address, NameID or similar
     settings = OneLogin::RubySaml::Settings.new
 
-    url_base ||= "http://cozumel-demo3.artis-asp.jp"
+    url_base ||= "https://cozumel-demo3.artis-asp.jp"
 
     # Example settings data, replace this values!
 

@@ -43,6 +43,7 @@ end
 
 group :development do
   gem 'listen'
+  gem 'localhost'
 end
 
 # Use Capistrano for deployment
