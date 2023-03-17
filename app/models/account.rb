@@ -4,7 +4,7 @@ class Account < ActiveRecord::Base
     # should retrieve SAML-settings based on subdomain, IP-address, NameID or similar
     settings = OneLogin::RubySaml::Settings.new
 
-    url_base ||= "http://localhost:3000"
+    url_base ||= "http://cozumel-demo3.artis-asp.jp"
 
     # Example settings data, replace this values!
 
@@ -16,34 +16,37 @@ class Account < ActiveRecord::Base
     settings.assertion_consumer_service_url = url_base + "/saml/acs"
     settings.assertion_consumer_logout_service_url = url_base + "/saml/logout"
 
-    onelogin_app_id = "922473"
+    onelogin_app_id = "f59cff71-2e77-4636-9a1b-8f3e16f85b08"
 
     # IdP section
-    settings.idp_entity_id                  = "https://app.onelogin.com/saml/metadata/1289cc09-555c-4719-957f-4a8361bce81f"
-    settings.idp_sso_target_url             = "https://cloud-mes-dev.onelogin.com/trust/saml2/http-post/sso/#{onelogin_app_id}"
-    settings.idp_slo_target_url             = "https://cloud-mes-dev.onelogin.com/trust/saml2/http-redirect/slo/#{onelogin_app_id}"
+    settings.idp_entity_id                  = "https://app.onelogin.com/saml/metadata/#{onelogin_app_id}"
+    settings.idp_sso_target_url             = "https://app.onelogin.com/trust/saml2/http-redirect/sso/#{onelogin_app_id}"
+    settings.idp_slo_target_url             = "https://app.onelogin.com/trust/saml2/http-redirect/slo/#{onelogin_app_id}"
     settings.idp_cert                       = "-----BEGIN CERTIFICATE-----
-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
+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
+KNOp2irTZc/c+Ze1OHDHLNsaXTd4tw==
 -----END CERTIFICATE-----
 "
 
