@@ -119,6 +119,8 @@ class SamlController < ApplicationController
     reset_session
 
     logout_response = OneLogin::RubySaml::SloLogoutresponse.new.create(settings, logout_request.id, nil, :RelayState => params[:RelayState])
+    p "## logout_response"
+    p logout_response
     redirect_to logout_response
   end
 
