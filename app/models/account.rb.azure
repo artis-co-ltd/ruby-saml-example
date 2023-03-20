@@ -1,0 +1,59 @@
+class Account < ActiveRecord::Base
+  def self.get_saml_settings(url_base)
+    # this is just for testing purposes.
+    # should retrieve SAML-settings based on subdomain, IP-address, NameID or similar
+    settings = OneLogin::RubySaml::Settings.new
+
+    url_base ||= "https://cozumel-demo3.artis-asp.jp"
+
+    # Example settings data, replace this values!
+
+    # When disabled, saml validation errors will raise an exception.
+    settings.soft = true
+
+    #SP section
+    settings.issuer                         = url_base + "/saml/metadata"
+    settings.assertion_consumer_service_url = url_base + "/saml/acs"
+    settings.assertion_consumer_logout_service_url = url_base + "/saml/logout"
+
+    onelogin_app_id = "eceea09f-439b-4ea3-bd64-3186eda9140e"
+
+    # IdP section
+    settings.idp_entity_id                  = "https://sts.windows.net/#{onelogin_app_id}/"
+    settings.idp_sso_target_url             = "https://login.microsoftonline.com/#{onelogin_app_id}/saml2"
+    settings.idp_slo_target_url             = "https://login.microsoftonline.com/#{onelogin_app_id}/saml2"
+    settings.idp_cert                       = "-----BEGIN CERTIFICATE-----
+MIIC8DCCAdigAwIBAgIQci0ZLG/3g6JOevon2u5d/DANBgkqhkiG9w0BAQsFADA0MTIwMAYDVQQD
+EylNaWNyb3NvZnQgQXp1cmUgRmVkZXJhdGVkIFNTTyBDZXJ0aWZpY2F0ZTAeFw0yMzAzMTcwNzE2
+NTVaFw0yNjAzMTcwNzE2NTVaMDQxMjAwBgNVBAMTKU1pY3Jvc29mdCBBenVyZSBGZWRlcmF0ZWQg
+U1NPIENlcnRpZmljYXRlMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvsPH97KOieTM
+fv0ROp7UsDBMb6BLYNA+EyCnmaVaQlnVEcPTADhQFQrHt1ts8xASDihmtsE5MLJqLge/zoP72m+L
+wQR/oq61A1Njer4efpe8ibVwpTqpm9jvEQ2aehqP+kTDPD6vi/zo5lKVX+DTAzNEeJY9GBW4SS+/
+GL71v9GglVM+xAr7cwFUu1VM5jaFvmJUxKQm7hpGbG4X9J+nC5FeF3WofWoqMHqBKebEIlIk2BpT
+i+8do78rh46kIy+iSJaBhYJ1RLox1ev37f/idZtoKufS9dX9I4akJ0wRFMZBD2ugQ4ZQ2ReSX6pQ
+vR/uRNs8bAEHf58RDhbiLU3wIQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQAyFYMHYln8slbbfib2
+lZQTiv0h/2aAKzkUEYNzFmqlUY4F63HyzY5WAV9NenldtQjJDYiFWcuUl95MAK47UdEH79g/IsQj
+wblMn9KFHvXOffWth0LJ+2vo3kGlglv9aGAN5DEr9FzfY6ogUPARG1YyWbomJV+NMri+QKufPSXa
+aBKcrqvdUpvcTv/fR+HcFs0CrhKdxqQzeyHZjo6rxe4ZHiI46LuuBZN4/YlEQ9FzsUiRs4DEQJPF
+OVVbuvZ7XQsWM5hlqdawRRyEmOKgngnJ00REmYUUrXz2T3iVUxHoSqlefVYG5IK03iJu9XCYmyF9
+IU1OyLXktWZyjLN0JHCD
+-----END CERTIFICATE-----
+"
+
+
+    # or settings.idp_cert_fingerprint           = ""
+    #    settings.idp_cert_fingerprint_algorithm = XMLSecurity::Document::SHA1
+
+    settings.name_identifier_format         = "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress"
+
+    # Security section
+    settings.security[:authn_requests_signed] = false
+    settings.security[:logout_requests_signed] = false
+    settings.security[:logout_responses_signed] = false
+    settings.security[:metadata_signed] = false
+    settings.security[:digest_method] = XMLSecurity::Document::SHA1
+    settings.security[:signature_method] = XMLSecurity::Document::RSA_SHA1
+
+    settings
+  end
+end
